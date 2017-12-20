@@ -13,11 +13,13 @@ class BytesString:
         self.add_to_array(text, index)
 
     def get_bytearray(self):
-        return self.bytes_str_arr
+        return bytearray.fromhex(''.join(self.bytes_str_arr))
 
     def add_to_array(self, text, index):
         splited_arr = self.split_by_n(text, 2)
         for element in reversed(list(splited_arr)):
+            element = ("0%s" % element) if len(element) == 1 else element
+
             self.bytes_str_arr[index - 1] = element
             index -= 1
 
@@ -25,4 +27,3 @@ class BytesString:
         while seq:
             yield seq[:n]
             seq = seq[n:]
-            seq = ("0%s" % seq) if len(seq) == 1 else seq
