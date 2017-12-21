@@ -9,7 +9,7 @@ class BytesString:
         self.add_to_array(index, value=text.encode(encoding).hex(), type="str")
 
     def add_integer(self, number, index):
-        text = hex(number).replace("0x", "")
+        text = self.to_hex(number)
         self.add_to_array(index, value=text, type="number")
 
     def get_bytearray(self):
@@ -20,8 +20,6 @@ class BytesString:
         loop_list = list(splited_arr) if kwargs.get("type") == "str" else reversed(list(splited_arr))
 
         for element in loop_list:
-            element = ("0%s" % element) if len(element) == 1 else element
-
             if kwargs.get("type") == "str":
                 self.bytes_str_arr[index - 1] = element
                 index += 1
@@ -33,3 +31,7 @@ class BytesString:
         while seq:
             yield seq[:n]
             seq = seq[n:]
+
+    def to_hex(self, n):
+        x = '%x' % (n,)
+        return str(('0' * (len(x) % 2)) + x)
