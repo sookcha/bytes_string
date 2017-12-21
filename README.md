@@ -16,3 +16,5 @@ Manipulate bytestring on Python, without hassle.
 
         bytes.add_string("Good", offset + 1, "ASCII")
         offset += 16
+
+        print(bytes.get_bytearray())
