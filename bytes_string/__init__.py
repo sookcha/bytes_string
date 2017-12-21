@@ -6,22 +6,28 @@ class BytesString:
         self.bytes_str_arr = ['00' for x in range(size)]
 
     def add_string(self, text, index, encoding):
-        self.add_to_array(text.encode(encoding).hex(), index)
+        self.add_to_array(index, value=text.encode(encoding).hex(), type="str")
 
     def add_integer(self, number, index):
         text = hex(number).replace("0x", "")
-        self.add_to_array(text, index)
+        self.add_to_array(index, value=text, type="number")
 
     def get_bytearray(self):
         return bytearray.fromhex(''.join(self.bytes_str_arr))
 
-    def add_to_array(self, text, index):
-        splited_arr = self.split_by_n(text, 2)
-        for element in reversed(list(splited_arr)):
+    def add_to_array(self, index, **kwargs):
+        splited_arr = self.split_by_n(kwargs.get("value"), 2)
+        loop_list = list(splited_arr) if kwargs.get("type") == "str" else reversed(list(splited_arr))
+
+        for element in loop_list:
             element = ("0%s" % element) if len(element) == 1 else element
 
-            self.bytes_str_arr[index - 1] = element
-            index -= 1
+            if kwargs.get("type") == "str":
+                self.bytes_str_arr[index - 1] = element
+                index += 1
+            else:
+                self.bytes_str_arr[index - 1] = element
+                index -= 1
 
     def split_by_n(self, seq, n):
         while seq:
