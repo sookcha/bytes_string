@@ -20,12 +20,8 @@ class BytesString:
         loop_list = list(splited_arr) if kwargs.get("type") == "str" else reversed(list(splited_arr))
 
         for element in loop_list:
-            if kwargs.get("type") == "str":
-                self.bytes_str_arr[index - 1] = element
-                index += 1
-            else:
-                self.bytes_str_arr[index - 1] = element
-                index -= 1
+            self.bytes_str_arr[index - 1] = element
+            index = index + 1 if kwargs.get("type") == "str" else index - 1
 
     def split_by_n(self, seq, n):
         while seq:
